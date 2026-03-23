@@ -13,7 +13,6 @@
   },
   "dependencies": {
     "@tanstack/react-query": "^5",
-    "@tanstack/react-router": "^1",
     "@tanstack/react-virtual": "^3",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-fs": "^2",
@@ -25,8 +24,7 @@
     "react": "^19",
     "react-dom": "^19",
     "recharts": "^2",
-    "tailwind-merge": "^2",
-    "zustand": "^5"
+    "tailwind-merge": "^2"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",
