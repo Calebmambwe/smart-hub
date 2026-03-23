@@ -1,6 +1,9 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { TaskBoard } from "./task-board";
+import { GhostRunCard } from "./ghost-run-card";
+import { MetricsDashboard } from "./metrics-dashboard";
+import { PRTracker } from "./pr-tracker";
 
 type Tab = "tasks" | "progress" | "metrics" | "prs";
 
@@ -42,39 +45,9 @@ export function Pipeline() {
 
       <div>
         {activeTab === "tasks" && <TaskBoard />}
-
-        {activeTab === "progress" && (
-          <div className="rounded-lg border bg-card p-4">
-            <p className="text-sm text-muted-foreground">
-              Pipeline progress — /auto-dev, /ghost-run status and progress bars.
-            </p>
-            <p className="mt-2 text-xs text-muted-foreground italic">
-              Full implementation coming in Milestone 5.
-            </p>
-          </div>
-        )}
-
-        {activeTab === "metrics" && (
-          <div className="rounded-lg border bg-card p-4">
-            <p className="text-sm text-muted-foreground">
-              Metrics dashboard — cost, duration, success rates from metrics.jsonl.
-            </p>
-            <p className="mt-2 text-xs text-muted-foreground italic">
-              Full implementation coming in Milestone 5.
-            </p>
-          </div>
-        )}
-
-        {activeTab === "prs" && (
-          <div className="rounded-lg border bg-card p-4">
-            <p className="text-sm text-muted-foreground">
-              PR tracker — open pull requests with check status from gh CLI.
-            </p>
-            <p className="mt-2 text-xs text-muted-foreground italic">
-              Full implementation coming in Milestone 5.
-            </p>
-          </div>
-        )}
+        {activeTab === "progress" && <GhostRunCard />}
+        {activeTab === "metrics" && <MetricsDashboard />}
+        {activeTab === "prs" && <PRTracker />}
       </div>
     </div>
   );

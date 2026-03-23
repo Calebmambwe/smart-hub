@@ -108,6 +108,7 @@ pub async fn read_metrics(metrics_path: String) -> Result<Vec<MetricsEvent>, App
     Ok(events)
 }
 
+/// Expand a leading `~` to the user's home directory.
 fn expand_home(path: &str) -> PathBuf {
     if let Some(rest) = path.strip_prefix('~') {
         if let Some(home) = dirs::home_dir() {
@@ -115,4 +116,66 @@ fn expand_home(path: &str) -> PathBuf {
         }
     }
     PathBuf::from(path)
+}
+
+// ---------------------------------------------------------------------------
+// list_open_prs
+// ---------------------------------------------------------------------------
+
+#[derive(Debug, Serialize)]
+pub struct PullRequest {
+    pub number: i32,
+    pub title: String,
+    pub state: String,
+    pub url: String,
+    pub head_branch: String,
+}
+
+/// Run `gh pr list` in `project_dir` and return up to 20 pull requests.
+///
+/// Shells out to the GitHub CLI so that the caller's `gh` auth context is used.
+/// Returns an empty list when the directory is not a GitHub repo or when `gh`
+/// is not installed.
+#[tauri::command]
+pub async fn list_open_prs(project_dir: String) -> Result<Vec<PullRequest>, AppError> {
+    let dir = expand_home(&project_dir);
+
+    let output = tokio::process::Command::new("gh")
+        .args([
+            "pr",
+            "list",
+            "--json",
+            "number,title,state,url,headRefName",
+            "--limit",
+            "20",
+        ])
+        .current_dir(&dir)
+        .output()
+        .await
+        .map_err(|e| AppError::Shell(format!("failed to run gh: {e}")))?;
+
+    if !output.status.success() {
+        let stderr = String::from_utf8_lossy(&output.stderr);
+        return Err(AppError::Shell(format!("gh pr list failed: {stderr}")));
+    }
+
+    let stdout = String::from_utf8_lossy(&output.stdout);
+    // `gh pr list --json` returns a JSON array.
+    let raw: Vec<serde_json::Value> = serde_json::from_str(&stdout)?;
+
+    let mut prs: Vec<PullRequest> = raw
+        .into_iter()
+        .filter_map(|v| {
+            Some(PullRequest {
+                number: v.get("number")?.as_i64()? as i32,
+                title: v.get("title")?.as_str()?.to_string(),
+                state: v.get("state")?.as_str()?.to_string(),
+                url: v.get("url")?.as_str()?.to_string(),
+                head_branch: v.get("headRefName")?.as_str()?.to_string(),
+            })
+        })
+        .collect();
+
+    prs.sort_by(|a, b| b.number.cmp(&a.number)); // newest first
+    Ok(prs)
 }

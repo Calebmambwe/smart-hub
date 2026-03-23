@@ -2,6 +2,10 @@ import { useState } from "react";
 import { cn } from "@/lib/utils";
 import { AgentBrowser } from "./agent-browser";
 import { CommandBrowser } from "./command-browser";
+import { SettingsViewer } from "./settings-viewer";
+import { StackGallery } from "./stack-gallery";
+import { RulesViewer } from "./rules-viewer";
+import { HooksViewer } from "./hooks-viewer";
 
 type Tab = "agents" | "commands" | "settings" | "stacks" | "rules" | "hooks";
 
@@ -47,26 +51,10 @@ export function ClaudeSetup() {
       <div className="min-h-0 flex-1 overflow-auto">
         {activeTab === "agents" && <AgentBrowser />}
         {activeTab === "commands" && <CommandBrowser />}
-        {(activeTab === "settings" ||
-          activeTab === "stacks" ||
-          activeTab === "rules" ||
-          activeTab === "hooks") && (
-          <div className="rounded-lg border bg-card p-4">
-            <p className="text-sm text-muted-foreground">
-              {activeTab === "settings" &&
-                "Settings viewer — environment variables, permissions, and hooks."}
-              {activeTab === "stacks" &&
-                "Stack template gallery — 16 templates for scaffolding new projects."}
-              {activeTab === "rules" &&
-                "Rule viewer — 13 path-scoped rule files governing behavior."}
-              {activeTab === "hooks" &&
-                "Hook viewer — 12 lifecycle shell hooks for automation."}
-            </p>
-            <p className="mt-2 text-xs italic text-muted-foreground">
-              Full implementation coming in a future milestone.
-            </p>
-          </div>
-        )}
+        {activeTab === "settings" && <SettingsViewer />}
+        {activeTab === "stacks" && <StackGallery />}
+        {activeTab === "rules" && <RulesViewer />}
+        {activeTab === "hooks" && <HooksViewer />}
       </div>
     </div>
   );

@@ -64,3 +64,15 @@ export interface StackTemplate {
   directories: string[];
   commands: Record<string, string>;
 }
+
+export interface RuleEntry {
+  name: string;
+  file_path: string;
+  preview: string;
+}
+
+export interface HookEntry {
+  name: string;
+  file_path: string;
+  description: string;
+}
