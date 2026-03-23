@@ -1,5 +1,6 @@
 mod commands;
 mod error;
+pub mod utils;
 mod watcher;
 
 use watcher::WatcherState;
@@ -18,9 +19,13 @@ pub fn run() {
             commands::claude_config::list_agents,
             commands::claude_config::read_settings,
             commands::claude_config::list_commands,
+            commands::claude_config::list_stacks,
+            commands::claude_config::list_rules,
+            commands::claude_config::list_hooks,
             commands::pipeline::read_tasks,
             commands::pipeline::read_ghost_config,
             commands::pipeline::read_metrics,
+            commands::pipeline::list_open_prs,
             commands::smart_desk::get_daemon_status,
             commands::smart_desk::tail_audit_log,
         ])

@@ -1,5 +1,9 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { TaskBoard } from "./task-board";
+import { GhostRunCard } from "./ghost-run-card";
+import { MetricsDashboard } from "./metrics-dashboard";
+import { PRTracker } from "./pr-tracker";
 
 type Tab = "tasks" | "progress" | "metrics" | "prs";
 
@@ -39,16 +43,11 @@ export function Pipeline() {
         ))}
       </div>
 
-      <div className="rounded-lg border bg-card p-4">
-        <p className="text-sm text-muted-foreground">
-          {activeTab === "tasks" && "Task board — kanban view of tasks.json with status columns."}
-          {activeTab === "progress" && "Pipeline progress — /auto-dev, /ghost-run status and progress bars."}
-          {activeTab === "metrics" && "Metrics dashboard — cost, duration, success rates from metrics.jsonl."}
-          {activeTab === "prs" && "PR tracker — open pull requests with check status from gh CLI."}
-        </p>
-        <p className="mt-2 text-xs text-muted-foreground italic">
-          Full implementation coming in Milestone 5.
-        </p>
+      <div>
+        {activeTab === "tasks" && <TaskBoard />}
+        {activeTab === "progress" && <GhostRunCard />}
+        {activeTab === "metrics" && <MetricsDashboard />}
+        {activeTab === "prs" && <PRTracker />}
       </div>
     </div>
   );

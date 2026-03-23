@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { cn } from "@/lib/utils";
+import { DaemonPanel } from "./daemon-panel";
 
 type Tab = "daemons" | "audit-log" | "rag-search" | "file-stats";
 
@@ -39,16 +40,41 @@ export function SmartDesk() {
         ))}
       </div>
 
-      <div className="rounded-lg border bg-card p-4">
-        <p className="text-sm text-muted-foreground">
-          {activeTab === "daemons" && "Daemon status — downloads_watcher and resource_monitor with start/stop controls."}
-          {activeTab === "audit-log" && "Audit log viewer — streaming 81MB JSONL with search and action filtering."}
-          {activeTab === "rag-search" && "RAG search — hybrid keyword + semantic search across indexed files."}
-          {activeTab === "file-stats" && "File organization stats — moves by category, duplicate detection results."}
-        </p>
-        <p className="mt-2 text-xs text-muted-foreground italic">
-          Full implementation coming in Milestone 4.
-        </p>
+      <div>
+        {activeTab === "daemons" && <DaemonPanel />}
+
+        {activeTab === "audit-log" && (
+          <div className="rounded-lg border bg-card p-4">
+            <p className="text-sm text-muted-foreground">
+              Audit log viewer — streaming 81MB JSONL with search and action filtering.
+            </p>
+            <p className="mt-2 text-xs text-muted-foreground italic">
+              Full implementation coming in Milestone 4.
+            </p>
+          </div>
+        )}
+
+        {activeTab === "rag-search" && (
+          <div className="rounded-lg border bg-card p-4">
+            <p className="text-sm text-muted-foreground">
+              RAG search — hybrid keyword + semantic search across indexed files.
+            </p>
+            <p className="mt-2 text-xs text-muted-foreground italic">
+              Full implementation coming in Milestone 4.
+            </p>
+          </div>
+        )}
+
+        {activeTab === "file-stats" && (
+          <div className="rounded-lg border bg-card p-4">
+            <p className="text-sm text-muted-foreground">
+              File organization stats — moves by category, duplicate detection results.
+            </p>
+            <p className="mt-2 text-xs text-muted-foreground italic">
+              Full implementation coming in Milestone 4.
+            </p>
+          </div>
+        )}
       </div>
     </div>
   );

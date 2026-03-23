@@ -12,31 +12,34 @@
     "tauri": "tauri"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5",
+    "@tanstack/react-virtual": "^3",
     "@tauri-apps/api": "^2",
     "@tauri-apps/plugin-fs": "^2",
     "@tauri-apps/plugin-shell": "^2",
     "@tauri-apps/plugin-window-state": "^2",
-    "@tanstack/react-query": "^5",
-    "@tanstack/react-router": "^1",
-    "@tanstack/react-virtual": "^3",
+    "class-variance-authority": "^0.7",
+    "clsx": "^2",
+    "lucide-react": "^0.474",
     "react": "^19",
     "react-dom": "^19",
-    "zustand": "^5",
     "recharts": "^2",
-    "lucide-react": "^0.474",
-    "clsx": "^2",
-    "tailwind-merge": "^2",
-    "class-variance-authority": "^0.7"
+    "tailwind-merge": "^2"
   },
   "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@tauri-apps/cli": "^2",
     "@types/react": "^19",
     "@types/react-dom": "^19",
-    "@tauri-apps/cli": "^2",
     "@vitejs/plugin-react": "^4",
     "autoprefixer": "^10",
+    "eslint": "^10.1.0",
+    "eslint-plugin-react-hooks": "^7.0.1",
+    "eslint-plugin-react-refresh": "^0.5.2",
     "postcss": "^8",
     "tailwindcss": "^3",
     "typescript": "^5",
+    "typescript-eslint": "^8.57.1",
     "vite": "^6"
   }
 }

@@ -1,0 +1,222 @@
+{
+  "project": "smart-hub",
+  "stack": "tauri-react-ts",
+  "tasks": [
+    {
+      "id": 1,
+      "title": "Fix Rust compilation — ensure all Tauri commands compile with correct serde derives and Tauri 2.0 API",
+      "status": "pending",
+      "priority": "P0",
+      "risk": "medium",
+      "depends_on": [],
+      "acceptance": [
+        "cargo build succeeds in src-tauri/",
+        "All #[tauri::command] functions have correct signatures",
+        "AppError implements required traits for Tauri command returns"
+      ],
+      "files": [
+        "src-tauri/Cargo.toml",
+        "src-tauri/src/lib.rs",
+        "src-tauri/src/error.rs",
+        "src-tauri/src/commands/claude_config.rs",
+        "src-tauri/src/commands/pipeline.rs",
+        "src-tauri/src/commands/smart_desk.rs",
+        "src-tauri/src/watcher.rs"
+      ],
+      "attempts": 0,
+      "max_attempts": 3
+    },
+    {
+      "id": 2,
+      "title": "Fix frontend TypeScript compilation — resolve all type errors and missing imports",
+      "status": "pending",
+      "priority": "P0",
+      "risk": "low",
+      "depends_on": [],
+      "acceptance": [
+        "pnpm typecheck passes with zero errors",
+        "All component imports resolve correctly",
+        "vite build succeeds"
+      ],
+      "files": [
+        "src/App.tsx",
+        "src/main.tsx",
+        "src/components/layout/sidebar.tsx",
+        "src/components/dashboard/dashboard.tsx",
+        "tsconfig.json",
+        "vite.config.ts"
+      ],
+      "attempts": 0,
+      "max_attempts": 3
+    },
+    {
+      "id": 3,
+      "title": "Wire Dashboard status cards to real Rust invoke() calls — agents count, commands count, ghost status, daemon status",
+      "status": "pending",
+      "priority": "P0",
+      "risk": "low",
+      "depends_on": [1, 2],
+      "acceptance": [
+        "AgentCountCard shows real count from catalog.json",
+        "CommandCountCard shows real count from commands/*.md",
+        "GhostStatusCard shows real status from ghost-config.json",
+        "DaemonStatusCard shows real status from launchctl",
+        "All cards handle loading and error states"
+      ],
+      "files": [
+        "src/components/dashboard/dashboard.tsx",
+        "src/hooks/use-agents.ts",
+        "src/hooks/use-commands.ts",
+        "src/hooks/use-ghost-config.ts",
+        "src/hooks/use-daemon-status.ts"
+      ],
+      "attempts": 0,
+      "max_attempts": 3
+    },
+    {
+      "id": 4,
+      "title": "Implement activity feed — parse metrics.jsonl and display recent pipeline events",
+      "status": "pending",
+      "priority": "P1",
+      "risk": "low",
+      "depends_on": [1, 2],
+      "acceptance": [
+        "ActivityFeed component renders recent MetricsEvent entries",
+        "Shows job_id, project, feature, outcome, duration",
+        "Handles empty metrics file gracefully",
+        "Refreshes on file-changed event for metrics.jsonl"
+      ],
+      "files": [
+        "src/components/dashboard/activity-feed.tsx",
+        "src/components/dashboard/dashboard.tsx",
+        "src/hooks/use-metrics.ts"
+      ],
+      "attempts": 0,
+      "max_attempts": 3
+    },
+    {
+      "id": 5,
+      "title": "Wire Claude Setup agent browser — searchable list from catalog.json with department/model filters",
+      "status": "pending",
+      "priority": "P1",
+      "risk": "low",
+      "depends_on": [1, 2],
+      "acceptance": [
+        "AgentBrowser component renders all agents from catalog.json",
+        "Search bar filters by name and description",
+        "Filter dropdowns for department and model_tier",
+        "Agent detail panel shows full info on click",
+        "List is virtualized for performance"
+      ],
+      "files": [
+        "src/components/claude-setup/claude-setup.tsx",
+        "src/components/claude-setup/agent-browser.tsx",
+        "src/components/claude-setup/agent-detail.tsx",
+        "src/hooks/use-agents.ts"
+      ],
+      "attempts": 0,
+      "max_attempts": 3
+    },
+    {
+      "id": 6,
+      "title": "Wire Claude Setup command browser — list all 80+ commands with search",
+      "status": "pending",
+      "priority": "P1",
+      "risk": "low",
+      "depends_on": [1, 2],
+      "acceptance": [
+        "CommandBrowser renders all commands from list_commands Rust command",
+        "Search bar filters by name and description",
+        "Shows command name and description in list items"
+      ],
+      "files": [
+        "src/components/claude-setup/command-browser.tsx",
+        "src/components/claude-setup/claude-setup.tsx",
+        "src/hooks/use-commands.ts"
+      ],
+      "attempts": 0,
+      "max_attempts": 3
+    },
+    {
+      "id": 7,
+      "title": "Wire Pipeline task board — kanban view of tasks.json with status columns",
+      "status": "pending",
+      "priority": "P1",
+      "risk": "low",
+      "depends_on": [1, 2],
+      "acceptance": [
+        "TaskBoard renders tasks from read_tasks Rust command",
+        "Four columns: pending, in_progress, completed, failed",
+        "Task cards show title, priority badge, risk badge, file count",
+        "Handles missing tasks.json gracefully"
+      ],
+      "files": [
+        "src/components/pipeline/pipeline.tsx",
+        "src/components/pipeline/task-board.tsx",
+        "src/components/pipeline/task-card.tsx",
+        "src/hooks/use-tasks.ts"
+      ],
+      "attempts": 0,
+      "max_attempts": 3
+    },
+    {
+      "id": 8,
+      "title": "Wire Smart Desk daemon status panel — show running/stopped status from launchctl",
+      "status": "pending",
+      "priority": "P1",
+      "risk": "low",
+      "depends_on": [1, 2],
+      "acceptance": [
+        "DaemonPanel renders daemon status from get_daemon_status Rust command",
+        "Shows name, label, PID, and status badge (green=running, red=stopped)",
+        "Handles daemons not installed gracefully"
+      ],
+      "files": [
+        "src/components/smart-desk/smart-desk.tsx",
+        "src/components/smart-desk/daemon-panel.tsx",
+        "src/hooks/use-daemon-status.ts"
+      ],
+      "attempts": 0,
+      "max_attempts": 3
+    },
+    {
+      "id": 9,
+      "title": "Verify full app — cargo tauri dev launches, all panels render, navigation works",
+      "status": "pending",
+      "priority": "P0",
+      "risk": "medium",
+      "depends_on": [3, 4, 5, 6, 7, 8],
+      "acceptance": [
+        "cargo tauri dev starts without errors",
+        "All 4 panels accessible via sidebar navigation",
+        "Dashboard cards show real data",
+        "No console errors in browser devtools",
+        "File watcher emits events on config changes"
+      ],
+      "files": [
+        "src-tauri/tauri.conf.json",
+        "src-tauri/capabilities/default.json"
+      ],
+      "attempts": 0,
+      "max_attempts": 3
+    },
+    {
+      "id": 10,
+      "title": "Create AGENTS.md with project-specific patterns and gotchas",
+      "status": "pending",
+      "priority": "P2",
+      "risk": "low",
+      "depends_on": [9],
+      "acceptance": [
+        "AGENTS.md exists at project root",
+        "Documents stack, conventions, known issues discovered during build",
+        "Documents Rust command patterns and IPC conventions"
+      ],
+      "files": [
+        "AGENTS.md"
+      ],
+      "attempts": 0,
+      "max_attempts": 3
+    }
+  ]
+}
