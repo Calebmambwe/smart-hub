@@ -7,6 +7,7 @@ pub enum AppError {
     Io(String),
     Parse(String),
     NotFound(String),
+    #[allow(dead_code)]
     Shell(String),
 }
 
