@@ -1,6 +1,6 @@
 use crate::error::AppError;
+use crate::utils::expand_home;
 use serde::{Deserialize, Serialize};
-use std::path::PathBuf;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct AgentCatalog {
@@ -133,16 +133,6 @@ fn parse_frontmatter(content: &str) -> (String, String) {
     }
 
     (name, description)
-}
-
-/// Expand a leading `~` to the user's home directory.
-fn expand_home(path: &str) -> PathBuf {
-    if let Some(rest) = path.strip_prefix('~') {
-        if let Some(home) = dirs::home_dir() {
-            return home.join(rest.strip_prefix('/').unwrap_or(rest));
-        }
-    }
-    PathBuf::from(path)
 }
 
 // ---------------------------------------------------------------------------

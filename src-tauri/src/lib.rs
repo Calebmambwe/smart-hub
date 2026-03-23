@@ -1,5 +1,6 @@
 mod commands;
 mod error;
+pub mod utils;
 mod watcher;
 
 use watcher::WatcherState;

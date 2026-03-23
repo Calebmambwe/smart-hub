@@ -1,6 +1,6 @@
 use crate::error::AppError;
+use crate::utils::expand_home;
 use serde::{Deserialize, Serialize};
-use std::path::PathBuf;
 
 #[derive(Debug, Serialize, Deserialize)]
 pub struct TasksFile {
@@ -106,16 +106,6 @@ pub async fn read_metrics(metrics_path: String) -> Result<Vec<MetricsEvent>, App
         .filter_map(|line| serde_json::from_str(line).ok())
         .collect();
     Ok(events)
-}
-
-/// Expand a leading `~` to the user's home directory.
-fn expand_home(path: &str) -> PathBuf {
-    if let Some(rest) = path.strip_prefix('~') {
-        if let Some(home) = dirs::home_dir() {
-            return home.join(rest.strip_prefix('/').unwrap_or(rest));
-        }
-    }
-    PathBuf::from(path)
 }
 
 // ---------------------------------------------------------------------------
